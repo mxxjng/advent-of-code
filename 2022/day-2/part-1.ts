@@ -2,6 +2,27 @@ import * as fs from "fs";
 
 const input = fs.readFileSync("./input/input.txt").toString().split("\n");
 
+let scoreObject: any = {
+    "A X": 4,
+    "A Y": 8,
+    "A Z": 3,
+    "B X": 1,
+    "B Y": 5,
+    "B Z": 9,
+    "C X": 7,
+    "C Y": 2,
+    "C Z": 6,
+};
+
+function solve2(input: string[]) {
+    let score = 0;
+    for (const i in input) {
+        score += scoreObject[input[i]];
+    }
+
+    console.log(score);
+}
+
 function solve(input: string[]) {
     let score = 0;
     for (const i in input) {
@@ -51,3 +72,4 @@ function solve(input: string[]) {
 }
 
 solve(input);
+solve2(input);
