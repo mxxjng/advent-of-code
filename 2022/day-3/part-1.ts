@@ -5,43 +5,37 @@ const input = fs.readFileSync("./input/input.txt").toString().split("\n");
 const alphabet = [..."abcdefghijklmnopqrstuvwxyz"];
 
 function solve(input: string[]) {
-    let arr: string[][] = [];
     let score = 0;
 
-    for (const i in input) {
+    input.forEach((i) => {
         // split string in middle
-        let first = input[i].substring(0, input[i].length / 2);
-        let second = input[i].substring(input[i].length / 2);
-
-        let matchingChars: string[] = [];
+        let first = i.substring(0, i.length / 2);
+        let second = i.substring(i.length / 2);
 
         // find matching chars for both strings
-        for (let i = 0; i < first.length; i++) {
-            for (let p = 0; p < second.length; p++) {
-                if (first[i] === second[p]) {
-                    matchingChars.push(first[i]);
-                }
+        let chrs = first.split("");
+        let matchChar = "";
+
+        chrs.forEach((e) => {
+            if (second.indexOf(e) !== -1) {
+                matchChar = e;
             }
-        }
+        });
 
-        arr.push(matchingChars);
-    }
-
-    for (const c in arr) {
-        // get the one common char in string
-        let char = arr[c][0];
-
-        // find the priority for the char
-        let index = alphabet.findIndex((i) => i === char.toLowerCase());
-
-        if (char === char.toUpperCase()) {
-            score += index + 27;
-        } else {
-            score += index + 1;
-        }
-    }
+        score += getPriority(matchChar);
+    });
 
     console.log(score);
+}
+
+function getPriority(char: string) {
+    let index = alphabet.findIndex((i) => i === char.toLowerCase());
+
+    if (char === char.toUpperCase()) {
+        return index + 27;
+    } else {
+        return index + 1;
+    }
 }
 
 solve(input);
