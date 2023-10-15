@@ -1,14 +1,13 @@
-import fs from 'fs';
-import { getTotalCaloriesFromElves, handleTextData } from '../utils/utils';
+import { loadTextfile } from "@utils/files";
+import { getTotalCaloriesFromElves, handleTextData } from "../utils/utils";
 
-fs.readFile('input.txt', (err, data) => {
-  if (err) throw err;
-  let arr = handleTextData(data);
+const data = await loadTextfile("input.txt");
 
-  let totalCaloriesPerElfArray = getTotalCaloriesFromElves(arr);
+let calorieArray = handleTextData(data);
 
-  // find the elf with the highest selected calories
-  const highestCalories = Math.max(...totalCaloriesPerElfArray);
+let totalCaloriesPerElfArray = getTotalCaloriesFromElves(calorieArray);
 
-  console.log(`solution is: ${highestCalories}`);
-});
+// find the elf with the highest selected calories
+const highestCalories = Math.max(...totalCaloriesPerElfArray);
+
+console.log(`solution is: ${highestCalories}`);
