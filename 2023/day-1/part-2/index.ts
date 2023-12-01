@@ -3,46 +3,38 @@ import { loadTextfile } from "@utils/files";
 const data = await loadTextfile("input.txt");
 const lines = data.split("\n");
 
-const digits: Record<string, any> = {
-    one: 1,
-    two: 2,
-    three: 3,
-    four: 4,
-    five: 5,
-    six: 6,
-    seven: 7,
-    eight: 8,
-    nine: 9,
-    "1": 1,
-    "2": 2,
-    "3": 3,
-    "4": 4,
-    "5": 5,
-    "6": 6,
-    "7": 7,
-    "8": 8,
-    "9": 9,
+const addNumber: Record<string, any> = {
+    one: "one1one",
+    two: "two2two",
+    three: "three3three",
+    four: "four4four",
+    five: "five5five",
+    six: "six6six",
+    seven: "seven7seven",
+    eight: "eight8eight",
+    nine: "nine9nine",
 };
 
-function solve(lines: string[]) {
-    return lines.reduce((acc, val) => {
-        // get all numbers from the line
-        const regex = /\d|one|two|three|four|five|six|seven|eight|nine/g;
+console.log(
+    lines
+        .slice(0, lines.length - 1)
+        .map((line) => {
+            for (const key in addNumber) {
+                line = line.replaceAll(key, addNumber[key]);
+            }
+            return line;
+        })
+        .reduce((acc, val) => {
+            const match = val.match(/\d/g);
 
-        const match = val.match(regex);
+            if (match) {
+                const firstNumber = match[0];
+                const lastNumber = match[match.length - 1];
+                const combinedNumber = parseInt(`${firstNumber}${lastNumber}`);
 
-        if (match) {
-            const firstNumber = digits[match[0]];
-            const lastNumber = digits[match[match.length - 1]];
+                return acc + combinedNumber;
+            }
 
-            const combined = parseInt(`${firstNumber}${lastNumber}`);
-
-            return acc + combined;
-        }
-
-        return 0;
-    }, 0);
-}
-
-// remove last line from array because its somehow empty
-console.log(solve(lines.slice(0, lines.length - 1)));
+            return 0;
+        }, 0)
+);

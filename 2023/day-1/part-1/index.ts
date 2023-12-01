@@ -20,4 +20,5 @@ function solve(lines: string[]) {
     }, 0);
 }
 
+// remove last line from array because its somehow empty
 console.log(solve(lines.slice(0, lines.length - 1)));
