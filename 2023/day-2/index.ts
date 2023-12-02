@@ -14,8 +14,9 @@ lines.forEach((line) => {
     // gets all game sets
     const gameSets = gameResult.split(";");
 
+    // check if every game set is valid
     const everyGameSetIsValid = gameSets.every((set) => {
-        const result = set.trim().split(",");
+        const result = set.split(",");
 
         // check if every value in a game set is valid
         const everyValueIsValid = result.every((res) => {
