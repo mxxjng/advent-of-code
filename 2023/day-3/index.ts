@@ -4,46 +4,51 @@ const data = await loadTextfile("input.txt");
 const lines = prepareLines(data);
 
 let validNumbers: number[] = [];
-
-// TODO: approach that first find all symbols and then check if there is a number next to it
-//
 let partNumberSum = 0;
 
-// my solution: wrong by 49 (probably because of some edge cases)
+// modified internet solution to understand better: original https://github.com/lucasteng123/advent-of-code-2023/blob/main/src/days/day3.ts
 function solve(input: string[]) {
     for (let i = 0; i < input.length; i++) {
-        const match = input[i].match(/\d+/g);
-
         const currentLine = input[i];
         const nextLine = input[i + 1] || "";
         const previousLine = input[i - 1] || "";
 
-        // part until line 42 comes from internet: https://github.com/lucasteng123/advent-of-code-2023/blob/main/src/days/day3.ts
-        // TODO: find out why this works and my solution from line 45 doesnt
         const matches = [...currentLine.matchAll(/(\d+)/g)];
 
         for (const match of matches) {
+            // get the index of the match where the number starts and ends
+            const partStartIndex = match.index!;
+            const partEndIndex = partStartIndex + match[0].length + 1;
+
+            // get the current line from the number with one signe before and after
+            // and the previous and next line from the number with one signe before and after
+            // this is needed to check if the number is surrounded by a symbol
             const textBlock = [
-                previousLine.substring(
-                    match.index! - 1,
-                    match.index! + match[0].length + 1
-                ),
-                lines[i].substring(
-                    match.index! - 1,
-                    match.index! + match[0].length + 1
-                ),
-                nextLine.substring(
-                    match.index! - 1,
-                    match.index! + match[0].length + 1
-                ),
+                previousLine.substring(partStartIndex - 1, partEndIndex),
+                currentLine.substring(partStartIndex - 1, partEndIndex),
+                nextLine.substring(partStartIndex - 1, partEndIndex),
             ];
 
+            // join the textBlock to a string and check if there is a symbol in it
             const findSymbol = textBlock.join("").match(/[^\d.]/);
-            if (findSymbol) partNumberSum += Number(match[0]);
+
+            // if there is a symbol in the textBlock we can add the number to the sum
+            if (findSymbol) partNumberSum += parseInt(match[0]);
         }
+    }
+}
+
+solve(lines);
+console.log("Part 1", partNumberSum);
+
+// my first solution: wrong by 49 (probably because of some edge cases)
+function solveOld(input: string[]) {
+    for (let i = 0; i < input.length; i++) {
+        const match = input[i].match(/\d+/g);
 
         if (match) {
             match.forEach((number) => {
+                // NOTE: error probably occurs here when 2 same numbers are in the line?
                 const numberStartIndex = input[i].indexOf(number);
                 const numberEndIndex = numberStartIndex + number.length - 1;
 
@@ -58,7 +63,6 @@ function solve(input: string[]) {
                 if (leftSymbol?.match(regex) || rightSymbol?.match(regex)) {
                     validNumbers.push(parseInt(number));
                     // if one check is true we can skip to the next number in the line
-                    console.log("is valid");
                     return;
                 }
 
@@ -75,7 +79,6 @@ function solve(input: string[]) {
                     if (topSymbol?.match(regex) || bottomSymbol?.match(regex)) {
                         validNumbers.push(parseInt(number));
                         // if one check is true we can skip to the next number in the line
-                        console.log("is valid");
                         return;
                     }
                 }
@@ -84,9 +87,7 @@ function solve(input: string[]) {
     }
 }
 
-solve(lines);
-
-console.log("Part 1 internet", partNumberSum);
+solveOld(lines);
 
 console.log(
     "Part 1 my solution",
