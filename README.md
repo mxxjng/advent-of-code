@@ -1,15 +1,3 @@
-# advent-of-code
+# Advent of code Repo
 
-To install dependencies:
-
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run <file-of-the-day>
-```
-
-This project was created using `bun init` in bun v1.0.6. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+tryring to solve advent of code in bun and go
