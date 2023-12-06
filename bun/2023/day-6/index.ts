@@ -21,15 +21,15 @@ const raceResults = times.map((time, i) => {
     };
 });
 
-function parseLine(line: string) {
+export function parseLine(line: string) {
     return line.split(":")[1].match(/\d+/g)?.map(Number) as number[];
 }
 
-function partOne(lines: RaceResult[]) {
+export function partOne(lines: RaceResult[]) {
     return lines.map(calculateWinningWays).reduce((acc, val) => acc * val, 1);
 }
 
-function calculateWinningWays({ time, distance }: RaceResult) {
+export function calculateWinningWays({ time, distance }: RaceResult) {
     // get an array of every second of the time of the race
     return Array.from(Array(time + 1).keys()).reduce((acc, val) => {
         const remainingTravelingSeconds = time - val;
