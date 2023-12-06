@@ -39,8 +39,13 @@ function calculateWinningWays({ time, distance }: RaceResult) {
     }, 0);
 }
 
+console.time("Part 1");
 console.log("Part 1", partOne(raceResults));
+console.timeEnd("Part 1");
+
+console.time("Part 2");
 console.log(
     "Part 2",
     calculateWinningWays({ time: bigTime, distance: bigDistance })
 );
+console.timeEnd("Part 2");
