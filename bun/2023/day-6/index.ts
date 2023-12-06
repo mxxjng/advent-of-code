@@ -49,3 +49,6 @@ console.log(
     calculateWinningWays({ time: bigTime, distance: bigDistance })
 );
 console.timeEnd("Part 2");
+
+// Part 1 time: 2.57ms
+// Part 2 time: 1397.42ms

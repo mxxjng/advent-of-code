@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type RaceResult struct {
@@ -87,7 +88,16 @@ func partTwo(lines []string) int {
 func main() {
 	lines := utils.LoadFile("./input.txt")
 
-	// todo: log times
+	startTime := time.Now()
 	fmt.Println("Part 1", partOne(lines))
-	fmt.Println("Part 1", partTwo(lines))
+	elapsedTime := time.Now().Sub(startTime)
+	fmt.Println("Part 1 took", elapsedTime)
+
+	startTime2 := time.Now()
+	fmt.Println("Part 2", partTwo(lines))
+	elapsedTime2 := time.Now().Sub(startTime2)
+	fmt.Println("Part 2 took", elapsedTime2)
+
+	// Part 1 time: 84.875µs
+	// Part 2 time: 591.483583ms
 }
