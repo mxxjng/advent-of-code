@@ -11,7 +11,7 @@ import (
 var categories = [7]string{"seed-to-soil map:", "soil-to-fertilizer map:", "fertilizer-to-water map:", "water-to-light map:", "light-to-temperature map:", "temperature-to-humidity map:", "humidity-to-location map:"}
 
 // takes a string and returns an array of numbers out of the numbers in the string
-func createNumberArray(line string) []int {
+func createNumberArray(line string) ([]int, error) {
 	numbers := regexp.MustCompile(`\d+`).FindAllString(line, -1)
 	numArr := []int{}
 
@@ -21,10 +21,10 @@ func createNumberArray(line string) []int {
 			numArr = append(numArr, n)
 		}
 
-		return numArr
+		return numArr, nil
 	}
 
-	return nil
+	return numArr, fmt.Errorf("No numbers found in string")
 }
 
 func part_one(lines []string) int {
@@ -53,17 +53,17 @@ func part_one(lines []string) int {
 
 		// based on currentCategory, add data to appropriate array
 		if currentCategory == "seed-to-soil map:" {
-			numArr := createNumberArray(line)
+			numArr, err := createNumberArray(line)
 
-			if numArr != nil {
+			if err != nil {
 				seedToSoilData = append(seedToSoilData, numArr)
 			}
 		}
 
 		if currentCategory == "soil-to-fertilizer map:" {
-			numArr := createNumberArray(line)
+			numArr, err := createNumberArray(line)
 
-			if numArr != nil {
+			if err != nil {
 				soilToFertilizer = append(soilToFertilizer, numArr)
 			}
 		}
