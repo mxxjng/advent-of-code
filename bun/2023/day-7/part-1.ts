@@ -3,7 +3,7 @@ import { loadTextfile, prepareLines } from "@utils/files";
 const data = await loadTextfile("input.txt");
 const lines = prepareLines(data);
 
-const handTypeRanking: Record<string, number> = {
+export const handTypeRanking: Record<string, number> = {
     fiveOfAKind: 7,
     fourOfAKind: 6,
     fullHouse: 5,
@@ -30,7 +30,7 @@ const individualCardRanking: Record<string, number> = {
 };
 
 // count how many times cards occur in a hand
-function countOccurences(hand: string) {
+export function countOccurences(hand: string) {
     let counter: Record<string, number> = {};
 
     [...hand].forEach((h) => {
@@ -48,6 +48,14 @@ function determineHandType(hand: string) {
     let counter = countOccurences(hand);
     const counterLength = Object.keys(counter).length;
 
+    return handTypeHandler(counter, counterLength);
+}
+
+// determine the hand type based on the counter and the length of the counter of cards in a hand
+export function handTypeHandler(
+    counter: Record<string, any>,
+    counterLength: number
+) {
     switch (counterLength) {
         case 5:
             // if counter has 5 elements every element only occurs once in a hand
